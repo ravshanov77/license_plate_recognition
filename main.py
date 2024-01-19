@@ -5,6 +5,7 @@ import numpy as np
 from PIL import Image
 from pathlib import Path
 import matplotlib.pyplot as plt
+from drawing_car_bbox import draw_bbox
 
 from ultralytics import YOLO, hub
 
@@ -16,7 +17,7 @@ model = model.to(device)
 
 
 #Preparing the video
-video = 'single_car.mp4'
+video = 'test_resources/single_car.mp4'
 
 cap = cv2.VideoCapture(video)
 
@@ -25,6 +26,15 @@ if not cap.isOpened():
 
 while True:
     ret, frame = cap.read()
+    frame = np.array(frame)
+    print(type(frame))
+    car_detect = model(frame)
+
+    # separating only cars from the predictions
+    cars = car_detect[0].boxes[car_detect[0].boxes.cls==2.]
+
+    # drawing bbox for a car
+    vid1 = draw_bbox(car_detect, labels=cars.xyxy)
 
     if not ret:
         break
@@ -37,5 +47,3 @@ while True:
 cap.release()
 cv2.destroyAllWindows()
 
-#Detecting the cars
-car_detect = model(cap)
