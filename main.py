@@ -26,7 +26,7 @@ if not cap.isOpened():
 
 while True:
     ret, frame = cap.read()
-    frame = np.array(frame)
+    frame = np.asarray(frame)
     print(type(frame))
     car_detect = model(frame)
 
@@ -34,7 +34,7 @@ while True:
     cars = car_detect[0].boxes[car_detect[0].boxes.cls==2.]
 
     # drawing bbox for a car
-    vid1 = draw_bbox(car_detect, labels=cars.xyxy)
+    vid1 = draw_bbox(frame, labels=cars.xyxy)
 
     if not ret:
         break
