@@ -2,12 +2,10 @@
 import torch
 import cv2
 import numpy as np
-from PIL import Image
-from pathlib import Path
 import matplotlib.pyplot as plt
-from drawing_car_bbox import draw_bbox
 
-from ultralytics import YOLO, hub
+from drawing_car_bbox import *
+from ultralytics import YOLO
 
 #Defining YOLO model
 model = YOLO('yolov8s')
@@ -35,6 +33,14 @@ while True:
 
     # drawing bbox for a car
     vid1 = draw_bbox(frame, labels=cars.xyxy)
+
+    # Detecting the licese plate
+    model2 = YOLO('models\licence.pt')
+
+    license_detect = model2(frame)
+
+    img2 = draw_bbox_lp(vid1, license_detect[0].boxes.xyxy)
+
 
     if not ret:
         break
