@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from drawing_car_bbox import *
 from ultralytics import YOLO
 
+
 #Defining YOLO model
 model = YOLO('yolov8s')
 
@@ -38,9 +39,26 @@ while True:
     model2 = YOLO('models\licence.pt')
 
     license_detect = model2(frame)
+    print(license_detect[0])
 
     img2 = draw_bbox_lp(vid1, license_detect[0].boxes.xyxy)
 
+
+    # Setting up the points of the number
+    x1, y1, x2, y2 = license_detect[0].boxes.xyxy[0].numpy()
+
+    licence_plate = img2[int(x1):int(x2), int(y1):int(x2)]
+
+    x1 = int(x1)
+    y1 = int(y1)
+    x2 = int(x2)
+    y2 = int(y2)
+
+    w = int(x2 - x1)
+    h = int(y2 - y1)
+
+    crop_img = frame[y1:y1+h, x1:x1+w]
+    cv2.imshow('Crop', mat=crop_img)
 
     if not ret:
         break
