@@ -39,3 +39,24 @@ def draw_bbox_lp(img, labels):
     x += 1
 
   return img
+
+
+#drawing bbox for licence number
+def draw_bbox_ln(img, labels, actual_num: str):
+
+  x = 0
+  while x < len(labels):
+    for i in labels:
+      img = cv.rectangle(img, (int(i[0]), int(i[1])), (int(i[2]), int(i[3])), color=[0,255,0], thickness=int(img.shape[0] ** .2))
+
+      img = cv.putText(img, actual_num, org=(int(i[0]), int(i[1]) - 5),
+                       fontFace=int(img.shape[0] ** .1),
+                       fontScale=int(img.shape[0] ** .14),
+                       color=[255,0,0],
+                       thickness=int(img.shape[0] ** .17))
+
+      font = cv.FONT_HERSHEY_SIMPLEX
+
+    x += 1
+
+  return img
