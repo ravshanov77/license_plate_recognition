@@ -18,7 +18,18 @@ model = model.to(device)
 #Preparing the video
 video = 'test_resources/single_car.mp4'
 
+output_video_path = "output"
+
 cap = cv2.VideoCapture(video)
+
+fps = int(cap.get(cv2.CAP_PROP_FPS))
+width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+# Define the codec and create VideoWriter object
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Use appropriate codec based on file extension
+out = cv2.VideoWriter(output_video_path, fourcc, fps, (width, height))
+
 
 if not cap.isOpened():
     exit()
@@ -65,6 +76,7 @@ while True:
 
 ##############
 
+    out.write(frame)
     if not ret:
         break
 
