@@ -26,7 +26,7 @@ if not cap.isOpened():
 while True:
     ret, frame = cap.read()
     frame = np.asarray(frame)
-    print(type(frame))
+
     car_detect = model(frame)
 
     # separating only cars from the predictions
@@ -35,32 +35,35 @@ while True:
     # drawing bbox for a car
     vid1 = draw_bbox(frame, labels=cars.xyxy)
 
-    # Detecting the licese plate
+    # Detecting the license plate
     model2 = YOLO('models\licence.pt')
 
     license_detect = model2(frame)
 
-    img2 = draw_bbox_lp(vid1, license_detect[0].boxes.xyxy)
+    img2 = draw_bbox_lp(frame, license_detect[0].boxes.xyxy)
 
-    # Setting up the points of the number
-    if license_detect and license_detect[0].boxes.xyxy:
-        x1, y1, x2, y2 = license_detect[0].boxes.xyxy[0].numpy()
-    else:
-        print("License detection result is empty.")
+    # # Setting up the points of the number
+    # if license_detect and license_detect[0].boxes.xyxy:
+    #     x1, y1, x2, y2 = license_detect[0].boxes.xyxy[0].numpy()
+    # else:
+    #     print("License detection result is empty.")
 
 
-    licence_plate = img2[int(x1):int(x2), int(y1):int(x2)]
+    # licence_plate = img2[int(x1):int(x2), int(y1):int(x2)]
 
-    x1 = int(x1)
-    y1 = int(y1)
-    x2 = int(x2)
-    y2 = int(y2)
+    # x1 = int(x1)
+    # y1 = int(y1)
+    # x2 = int(x2)
+    # y2 = int(y2)
 
-    w = int(x2 - x1)
-    h = int(y2 - y1)
+    # w = int(x2 - x1)
+    # h = int(y2 - y1)
 
-    crop_img = frame[y1:y1+h, x1:x1+w]
-    cv2.imshow('Crop', mat=crop_img)
+    # crop_img = frame[y1:y1+h, x1:x1+w]
+    # cv2.imshow('Crop', mat=crop_img)
+
+
+##############
 
     if not ret:
         break
