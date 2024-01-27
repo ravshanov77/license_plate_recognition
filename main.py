@@ -74,7 +74,7 @@ while True:
     # cv2.imshow('Crop', mat=crop_img)
 
 
-##############
+#############
 
     out.write(frame)
     if not ret:
