@@ -60,3 +60,4 @@ def draw_bbox_ln(img, labels, actual_num: str):
     x += 1
 
   return img
+
