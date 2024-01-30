@@ -1,4 +1,3 @@
-#Importing vital frameworks
 import torch
 import cv2
 import numpy as np
@@ -74,8 +73,6 @@ while True:
     # cv2.imshow('Crop', mat=crop_img)
 
 
-############
-
     out.write(frame)
     if not ret:
         break
@@ -87,4 +84,3 @@ while True:
 
 cap.release()
 cv2.destroyAllWindows()
-
