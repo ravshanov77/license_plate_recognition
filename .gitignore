@@ -1,2 +1,3 @@
 # all models that are used
 *.pt
+models/
