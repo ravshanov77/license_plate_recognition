@@ -52,11 +52,12 @@ while True:
 
     img2 = draw_bbox_lp(frame, license_detect[0].boxes.xyxy)
 
-    # # Setting up the points of the number
-    # if license_detect and license_detect[0].boxes.xyxy:
-    #     x1, y1, x2, y2 = license_detect[0].boxes.xyxy[0].numpy()
-    # else:
-    #     print("License detection result is empty.")
+    # Setting up the points of the number
+    if license_detect[0].boxes.cls != None:
+        print(license_detect[0].boxes)
+        x1, y1, x2, y2 = license_detect[0].boxes.xyxy[0].numpy()
+    else:
+        print("License detection result is empty.")
 
 
     # licence_plate = img2[int(x1):int(x2), int(y1):int(x2)]
