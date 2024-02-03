@@ -8,7 +8,7 @@ from ultralytics import YOLO
 
 
 #Defining YOLO model
-model = YOLO('yolov8s')
+model = YOLO('models/yolov8s')
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = model.to(device)
