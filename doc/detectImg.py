@@ -87,9 +87,15 @@ licenseDetect = lambda img: model_license(img) # detecting the license
 
 def drawLisence(img, labels):
     """
-    
+    Draw bbox for license
+
+    Args:
+        img: numpy array
+        lables (array): labels of license plate that was found by 'model_license'
+
+    Returns:
+        array: img with the detected license(s)
     """
-    # license_detect = model_license(img)
     x = 0
     while x < len(labels):
         for i in labels:
@@ -106,12 +112,13 @@ def drawLisence(img, labels):
         x += 1
     return img
 
+
+
 # sample usage
 img = getImg('resources/car2.jpg')
 cars = getCars(img)
 car = drawBbox(img, labels=cars.xyxy)
 license_detect = licenseDetect(car)
-print(license_detect)
 license = drawLisence(car, labels=license_detect[0].boxes.xyxy)
 
 cv2.imshow('License Image', license)
