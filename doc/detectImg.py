@@ -13,14 +13,18 @@ import matplotlib.pyplot as plt
 from ultralytics import YOLO
 
 
-#Defining the YOLO model
+# defining the models
 model_yolo = YOLO('models/yolov8s.pt')
-
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model_yolo = model_yolo.to(device)
 
 model_license = YOLO('models/license.pt')
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+model_license = model_license.to(device)
+
 model_alpha = YOLO('models/alpha_num.pt')
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+model_alpha = model_alpha.to(device)
 
 def getImg(path):
     """
@@ -32,7 +36,7 @@ def getImg(path):
     Returns:
         array: actual image
     """
-    img = Image.open(path)
+    img = cv2.imread(path)
     img = np.array(img)
     return img
 
@@ -79,11 +83,13 @@ def drawBbox(img, labels):
 
     return img
 
-def getLicense(img, labels):
+licenseDetect = lambda img: model_license(img) # detecting the license
+
+def drawLisence(img, labels):
     """
     
     """
-    license_detect = model_license(img)
+    # license_detect = model_license(img)
     x = 0
     while x < len(labels):
         for i in labels:
@@ -98,10 +104,20 @@ def getLicense(img, labels):
             font = cv2.FONT_HERSHEY_SIMPLEX
 
         x += 1
+    return img
 
+# sample usage
+img = getImg('resources/car2.jpg')
+cars = getCars(img)
+car = drawBbox(img, labels=cars.xyxy)
+license_detect = licenseDetect(car)
+print(license_detect)
+license = drawLisence(car, labels=license_detect[0].boxes.xyxy)
 
-img = getImg('car.jpg')
-print(getCars(img))
+cv2.imshow('License Image', license)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
 
 # # #Preparing the video
 # # def getVideo(path):
