@@ -112,6 +112,28 @@ def drawLisence(img, labels):
         x += 1
     return img
 
+def cropImg(img):
+    """
+    Crop the license plate
+
+    Args:
+        img: numpy array
+
+    Returns:
+        img: cropped license plate
+    """
+    x1, y1, x2, y2 = licenseDetect(img)[0].boxes.xyxy[0].numpy()
+
+    licence_plate = img[int(x1):int(x2), int(y1):int(x2)]
+    x1 = int(x1)
+    y1 = int(y1)
+    x2 = int(x2)
+    y2 = int(y2)
+
+    w = int(x2 - x1)
+    h = int(y2 - y1)
+    crop_img = img[y1:y1+h, x1:x1+w]
+    return crop_img
 
 
 # sample usage
@@ -120,8 +142,10 @@ cars = getCars(img)
 car = drawBbox(img, labels=cars.xyxy)
 license_detect = licenseDetect(car)
 license = drawLisence(car, labels=license_detect[0].boxes.xyxy)
+crop_img = cropImg(car)
 
 cv2.imshow('License Image', license)
+cv2.imshow('Crop Image', crop_img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
