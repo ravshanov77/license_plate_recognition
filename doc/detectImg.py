@@ -218,6 +218,3 @@ cv2.destroyAllWindows()
 
 #     if cv2.waitKey(25) & 0xFF == ord('q'):
 #         break
-
-# cap.release()
-# cv2.destroyAllWindows()
