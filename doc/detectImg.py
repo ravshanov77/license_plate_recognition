@@ -210,7 +210,6 @@ cv2.destroyAllWindows()
 #     # crop_img = frame[y1:y1+h, x1:x1+w]
 #     # cv2.imshow('Crop', mat=crop_img)
 
-
 #     if not ret:
 #         break
 
