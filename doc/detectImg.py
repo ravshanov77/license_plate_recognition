@@ -84,6 +84,7 @@ def drawBbox(img, labels):
     return img
 
 licenseDetect = lambda img: model_license(img) # detecting the license
+alphaDetect = lambda img: model_alpha(img) # detecting the characters and numbers
 
 def drawLisence(img, labels):
     """
@@ -135,6 +136,48 @@ def cropImg(img):
     crop_img = img[y1:y1+h, x1:x1+w]
     return crop_img
 
+def getActualNum(results):
+    """
+    Get the an actual number plate value with the results got by alpha_num model
+
+    Args:
+        results (array): labels of license plate values that was found by 'alpha_num' model
+    
+    Returns:
+        Ordered value of a license plate
+    """
+    mixed_result = [results[0].names.get(int(x)) for x in results[0].boxes.cls]
+    values = list(zip(results[0].boxes.cls.numpy(), results[0].boxes.xyxy.numpy()))
+
+    x = sorted(values, key=lambda x: x[1][0])
+    list_x = []
+    for cl, box in x:
+        list_x.append(int(cl))
+    
+    true_seq = [results[0].names.get(y) for y in list_x]
+    # Mapping of string numbers to their integer representations
+    number_mapping = {
+        'zero': '0',
+        'one': '1',
+        'two': '2',
+        'three': '3',
+        'four': '4',
+        'five': '5',
+        'six': '6',
+        'seven': '7',
+        'eight': '8',
+        'nine': '9',
+        # Add more numbers as needed
+    }
+
+    # Your original list
+    original_list = true_seq
+
+    # Convert string numbers to integers while keeping other items unchanged
+    converted_list = [number_mapping[item] if item in number_mapping else item for item in original_list]
+
+    actual_num = "".join(converted_list)
+    return actual_num[:2] + ' ' + actual_num[2:]
 
 # sample usage
 img = getImg('resources/car2.jpg')
@@ -143,6 +186,10 @@ car = drawBbox(img, labels=cars.xyxy)
 license_detect = licenseDetect(car)
 license = drawLisence(car, labels=license_detect[0].boxes.xyxy)
 crop_img = cropImg(car)
+alpha = alphaDetect(crop_img)
+print(alpha[0].boxes.cls)
+actual_num = getActualNum(alpha)
+print(actual_num)
 
 cv2.imshow('License Image', license)
 cv2.imshow('Crop Image', crop_img)
