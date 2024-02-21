@@ -179,8 +179,29 @@ def getActualNum(results):
     actual_num = "".join(converted_list)
     return actual_num[:2] + ' ' + actual_num[2:]
 
-# sample usage
-img = getImg('car5.jpg')
+#drawing bbox for licence number
+def drawNumber(img, labels, value):
+
+  x = 0
+  while x < len(labels):
+    for i in labels:
+      img = cv2.rectangle(img, (int(i[0]), int(i[1])), (int(i[2]), int(i[3])), color=[0,255,0], thickness=int(img.shape[0] ** .2))
+
+      img = cv2.putText(img, value, org=(int(i[0]), int(i[1]) - 5),
+                       fontFace=int(img.shape[0] ** .1),
+                       fontScale=int(img.shape[0] ** .14),
+                       color=[255,0,0],
+                       thickness=int(img.shape[0] ** .17))
+
+      font = cv2.FONT_HERSHEY_SIMPLEX
+
+    x += 1
+
+  return img
+
+
+# sample usage (I know I am an idiot)
+img = getImg('resources/car2.jpg')
 cars = getCars(img)
 car = drawBbox(img, labels=cars.xyxy)
 license_detect = licenseDetect(car)
@@ -190,10 +211,13 @@ alpha = alphaDetect(crop_img)
 print(alpha[0].boxes.cls)
 actual_num = getActualNum(alpha)
 print(actual_num)
+real_img = cv2.imread('resources/car2.jpg')
+real_img = np.array(real_img)
+last_img = drawNumber(real_img, license_detect[0].boxes.xyxy, actual_num)
 
-cv2.imshow('License Image', license)
+# cv2.imshow('License Image', license)
 cv2.imshow('Crop Image', crop_img)
+cv2.imshow('Final Image', last_img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-
 
