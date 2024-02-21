@@ -180,7 +180,7 @@ def getActualNum(results):
     return actual_num[:2] + ' ' + actual_num[2:]
 
 # sample usage
-img = getImg('resources/car2.jpg')
+img = getImg('car5.jpg')
 cars = getCars(img)
 car = drawBbox(img, labels=cars.xyxy)
 license_detect = licenseDetect(car)
