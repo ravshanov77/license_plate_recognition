@@ -1,5 +1,5 @@
 # all models
 *.pt
-models/
+models/*
 # all resources
 resources/*
