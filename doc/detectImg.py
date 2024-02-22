@@ -199,7 +199,8 @@ def drawNumber(img, labels, value):
 
 
 # sample usage (I know I am an idiot)
-img = getImg('resources/car2.jpg')
+x = 'resources/car5.jpg'
+img = getImg(x)
 cars = getCars(img)
 car = drawBbox(img, labels=cars.xyxy)
 license_detect = licenseDetect(car)
@@ -209,7 +210,7 @@ alpha = alphaDetect(crop_img)
 print(alpha[0].boxes.cls)
 actual_num = getActualNum(alpha)
 print(actual_num)
-real_img = cv2.imread('resources/car2.jpg')
+real_img = cv2.imread(x)
 real_img = np.array(real_img)
 last_img = drawNumber(real_img, license_detect[0].boxes.xyxy, actual_num)
 
