@@ -179,7 +179,6 @@ def getActualNum(results):
 
 #drawing bbox for licence number
 def drawNumber(img, labels, value):
-
   x = 0
   while x < len(labels):
     for i in labels:
