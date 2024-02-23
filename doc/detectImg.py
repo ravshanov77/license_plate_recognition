@@ -1,6 +1,5 @@
 """
 This file is built in order to recognise license plate (number plate) only on images.
-
 """
 
 # needs
