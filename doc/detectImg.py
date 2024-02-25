@@ -212,6 +212,7 @@ real_img = cv2.imread(x)
 real_img = np.array(real_img)
 last_img = drawNumber(real_img, license_detect[0].boxes.xyxy, actual_num)
 
+
 # cv2.imshow('License Image', license)
 cv2.imshow('Crop Image', crop_img)
 cv2.imshow('Final Image', last_img)
