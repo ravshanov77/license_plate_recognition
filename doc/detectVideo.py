@@ -13,7 +13,6 @@ model = YOLO('models/yolov8s.pt')
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = model.to(device)
 
-
 #Preparing the video
 video = 'test_resources/single_car.mp4'
 
